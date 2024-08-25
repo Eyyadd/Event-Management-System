@@ -1,0 +1,125 @@
+﻿@model IEnumerable<DAL.Models.Category>
+
+@{
+    ViewData["Title"] = "Retrieve Categories";
+    Layout = "_DashBoardLayout";
+}
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+</head>
+
+<style>
+    #toast-container {
+        margin-top: 50px;
+    }
+</style>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Category Table</h6>
+            <a asp-action="CreateCategory" asp-controller="Admindashboard" class="btn btn-primary">Create Category</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.ImageURL</td>
+                            <td>@item.Description</td>
+                            <td>
+                                <a data-id="@item.Id" class="js-delete">
+                                    <i class="bi bi-trash3 btn btn-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    @*     <script src="/lib/jquery/dist/jquery.js"></script> *@
+    <script type="text/javascript">
+        toastr.options = {
+            "preventDuplicates": true,
+            "closeButton": true,
+            "progressBar": true,
+
+        }
+        // Display success toastr if available
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                toastr.success('@TempData["SuccessMessage"]');
+            </text>
+        }
+    </script>
+    <script type="text/javascript">
+        $('.js-delete').on('click', function () {
+            var btn = $(this);
+            //alert(btn.data('id'));
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                    $.ajax({
+                        url: '@Url.Action("DeleteCategory", "Admindashboard", new { area = "Admin" })/' + btn.data('id'),
+                        method: 'Delete',
+                        success: function () {
+                            if ($('tbody tr').length === 1) {
+                                $('table').fadeOut(function () {
+                                    this.remove();
+                                    $('.alert').removeClass('d-none');
+                                })
+                            }
+                            else {
+                                btn.parents('tr').fadeOut(function () {
+                                    this.remove();
+                                });
+                            }
+                            toastr.success("Category Deleted Successfully");
+                        },
+                        error: function () {
+                            toastr.error("something went wrong");
+                        }
+
+                    })
+                }
+            });
+        });
+    </script>
+}

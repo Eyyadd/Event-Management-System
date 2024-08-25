@@ -1,7 +1,7 @@
 ﻿namespace EventManagement.Areas.Events.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [Area("Admin")]
+    [Authorize(Roles = Role.AdminRole)]
     public class RoleController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -23,27 +23,38 @@
             return View();
         }
 
-        [HttpPost()]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RoleViewModel roleVm)
         {
             if (ModelState.IsValid)
             {
-                IdentityRole checkrole = await _roleManager.FindByNameAsync(roleVm.Name);
+                var checkrole = await _roleManager.FindByNameAsync(roleVm.Name);
                 if (checkrole is null)
                 {
 
                     IdentityRole MappingRole = new IdentityRole();
                     MappingRole.Name = roleVm.Name;
 
-                    await _roleManager.CreateAsync(MappingRole);
-                    return RedirectToAction("Index", "Home");
+                    var result = await _roleManager.CreateAsync(MappingRole);
+                    if (result.Succeeded)
+                    {
+                        TempData["SuccessMessage"] = "Role Added Successfully";
+                        return RedirectToAction("RetrieveUsers", "AdminDashboard", new { area = "Admin" });
+                    }
+                    foreach (var Error in result.Errors)
+                    {
+                        ModelState.AddModelError(Error.Code, Error.Description);
+                    }
                 }
-                if (checkrole.Name == "Admin")
+                else
                 {
-                    await _roleManager.AddClaimAsync(checkrole, new Claim("NumberOfAdmins", "1"));
+                    if (checkrole.Name == "Admin")
+                    {
+                        await _roleManager.AddClaimAsync(checkrole, new Claim("NumberOfAdmins", "1"));
+                    }
+                    ModelState.AddModelError(string.Empty, "The Role Already Exist");
                 }
-                ModelState.AddModelError(string.Empty, "The Role Already Exist");
             }
             return View(roleVm);
         }
@@ -64,6 +75,7 @@
                     Text = user.UserName
                 });
             }
+
             foreach (var role in roles)
             {
                 assignRoleVm.Roles.Add(new SelectListItem
@@ -82,12 +94,12 @@
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = await _userManager.FindByIdAsync(assignRole.UserId);
-                IdentityRole role = await _roleManager.FindByIdAsync(assignRole.RoleId);
+                var user = await _userManager.FindByIdAsync(assignRole.UserId);
+                var role = await _roleManager.FindByIdAsync(assignRole.RoleId);
                 if (user is not null && role is not null)
                 {
                     await _userManager.AddToRoleAsync(user, role.Name);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("RetrieveUsers", "AdminDashboard", new { area = "Admin" });
                 }
                 ModelState.AddModelError(string.Empty, "Invalid Assign");
             }

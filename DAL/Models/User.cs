@@ -6,7 +6,7 @@ namespace DAL.Models
     {
         public string Address { get; set; }
         public int Age { get; set; }
-        public List<Tickets> Tickets { get; set; }
-        public List<Feedback> Feedbacks { get; set; }
+        public List<Tickets>? Tickets { get; set; }
+        public List<Feedback>? Feedbacks { get; set; }
     }
 }

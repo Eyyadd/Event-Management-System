@@ -25,3 +25,7 @@ body {
     background-color: #101522 !important;
     color:white ;
 }
+/*Toastr Override*/
+#toast-container {
+    margin-top: 50px;
+}

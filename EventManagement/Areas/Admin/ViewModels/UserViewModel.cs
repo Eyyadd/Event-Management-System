@@ -3,6 +3,8 @@
     public class UserViewModel
     {
         public string UserName { get; set; }
+
+        [EmailAddress]
         public string Email { get; set; }
         public string Address { get; set; }
 

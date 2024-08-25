@@ -1,7 +1,212 @@
-﻿
+﻿@model List<DAL.Models.Category>
 @{
     ViewData["Title"] = "Index";
+    Layout = "_HomeLayout";
 }
-
-<h1>Index</h1>
-
+<!-- Carousel Start -->
+<div class="carousel-header">
+    <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+        <ol class="carousel-indicators">
+            @for (var i = 0; i < Model.Count; i++)
+            {
+                <li data-bs-target="#carouselId" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
+            }
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            @for (var i = 0; i < Model.Count; i++)
+            {
+                var item = Model[i];
+                <div class="carousel-item @(i == 0 ? "active" : "")">
+                    <img src="/img/@item.ImageURL" class="img-fluid" alt="Image">
+                    <div class="carousel-caption">
+                        <div class="text-center p-4" style="max-width: 900px;">
+                            <h4 class="text-white text-uppercase fw-bold mb-3 mb-md-4 wow fadeInUp" data-wow-delay="0.1s">Categories</h4>
+                            <h1 class="display-1 text-capitalize text-white mb-3 mb-md-4 wow fadeInUp" data-wow-delay="0.3s">@item.Name</h1>
+                            <p class="text-white mb-4 mb-md-5 fs-5 wow fadeInUp" data-wow-delay="0.5s">
+                                @item.Description
+                            </p>
+                            <a asp-action="Index" asp-controller="Event" asp-area="System" asp-route-Id="@item.Id" class="btn btn-primary border-secondary rounded-pill text-white py-3 px-5 wow fadeInUp" data-wow-delay="0.7s">More Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-secondary wow fadeInLeft" data-wow-delay="0.2s" aria-hidden="false"></span>
+            <span class="visually-hidden-focusable">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-secondary wow fadeInRight" data-wow-delay="0.2s" aria-hidden="false"></span>
+            <span class="visually-hidden-focusable">Next</span>
+        </button>
+    </div>
+</div>
+<!-- Carousel End -->
+<!-- About Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="row g-5">
+            <div class="col-xl-5 wow fadeInLeft" data-wow-delay="0.1s">
+                <div class="bg-light rounded">
+                    <img src="/img/about2.jpg" class="img-fluid w-100" style="margin-bottom: -7px;" alt="Image">
+                    <img src="/img/about.jpg" class="img-fluid w-100 border-bottom border-5 border-primary" style="border-top-right-radius: 300px; border-top-left-radius: 300px;" alt="Image">
+                </div>
+            </div>
+            <div class="col-xl-7 wow fadeInRight" data-wow-delay="0.3s">
+                <h5 class="sub-title pe-3">About Our Services</h5>
+                <h1 class="display-5 mb-4">We’re a Leading Event Management Agency</h1>
+                <p class="mb-4">
+                    Welcome to Tickety, your go-to platform for booking tickets to the most exciting events and concerts. We make it easy and secure to find and reserve your spot at unforgettable experiences.
+                    Our mission is to connect you with the events you love, offering a smooth and user-friendly booking process. With competitive pricing and a commitment to customer satisfaction, we’re here to ensure you never miss a moment.
+                    Thank you for choosing Tickety—let’s create lasting memories together!
+                </p>
+                <div class="row gy-4 align-items-center">
+                    <div class="col-12 col-sm-6 d-flex align-items-center">
+                        <i class="fas fa-calendar-alt fa-3x text-secondary"></i>
+                        <h5 class="ms-4">Comprehensive Event Planning</h5>
+                    </div>
+                    <div class="col-12 col-sm-6 d-flex align-items-center">
+                        <i class="fas fa-microphone-alt fa-3x text-secondary"></i>
+                        <h5 class="ms-4">Top-Notch Entertainment</h5>
+                    </div>
+                    <div class="col-4 col-md-3">
+                        <div class="bg-light text-center rounded p-3">
+                            <div class="mb-2">
+                                <i class="fas fa-trophy fa-4x text-primary"></i>
+                            </div>
+                            <h1 class="display-5 fw-bold mb-2">20</h1>
+                            <p class="text-muted mb-0">Years of Experience</p>
+                        </div>
+                    </div>
+                    <div class="col-8 col-md-9">
+                        <div class="mb-5">
+                            <p class="text-primary h6 mb-3"><i class="fa fa-check-circle text-secondary me-2"></i> 100% Client Satisfaction</p>
+                            <p class="text-primary h6 mb-3"><i class="fa fa-check-circle text-secondary me-2"></i> Innovative Event Concepts</p>
+                            <p class="text-primary h6 mb-3"><i class="fa fa-check-circle text-secondary me-2"></i> Expert Execution</p>
+                        </div>
+                        <div class="d-flex flex-wrap">
+                            <div id="phone-tada" class="d-flex align-items-center justify-content-center me-4">
+                                <a href="" class="position-relative wow tada" data-wow-delay=".9s">
+                                    <i class="fa fa-phone-alt text-primary fa-3x"></i>
+                                    <div class="position-absolute" style="top: 0; left: 25px;">
+                                        <span><i class="fa fa-comment-dots text-secondary"></i></span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                                <span class="text-primary">Have any questions?</span>
+                                <span class="text-secondary fw-bold fs-5" style="letter-spacing: 2px;">Call Us:01020699956</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About End -->
+<!-- Singers Start -->
+<div class="container-fluid counter-facts py-5">
+    <h3 style="text-align:center">Our Concerts</h3>
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-12 col-sm-6 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="col-12" style="text-align: center;">
+                    <div style="height:340px; overflow: hidden;">
+                        <img src="/singersImgs/Amir eid.jpeg" style="width: 100%; height: 100%; object-fit: cover;" alt="img">
+                    </div>
+                    <h3>Amir Eid</h3>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="col-12" style="text-align: center;">
+                    <div style="height:340px; overflow: hidden;">
+                        <img src="/singersImgs/amr diab.jpeg" style="width: 100%; height: 100%; object-fit: cover;" alt="img">
+                    </div>
+                    <h3>Amr Diab</h3>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="col-12" style="text-align: center;">
+                    <div style="height:340px; overflow: hidden;">
+                        <img src="/singersImgs/abdelhalim.jpeg" style="width: 100%; height: 100%; object-fit: cover;" alt="img">
+                    </div>
+                    <h3>Abd-Elhalim Hafez</h3>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.7s">
+                <div class="col-12" style="text-align: center;">
+                    <div style="height:340px; overflow: hidden;">
+                        <img src="/singersImgs/tamer hosny.jpeg" style="width: 100%; height: 100%; object-fit: cover;" alt="img">
+                    </div>
+                    <h3>Tamer Hosny</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Singers End -->
+<!-- Counter Facts Start -->
+<div class="container-fluid counter-facts py-5">
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-12 col-sm-6 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="counter">
+                    <div class="counter-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="counter-content">
+                        <h3>Events Hosted</h3>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <span class="counter-value" data-toggle="counter-up">1500</span>
+                            <h4 class="text-secondary mb-0" style="font-weight: 600; font-size: 25px;">+</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="counter">
+                    <div class="counter-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="counter-content">
+                        <h3>Satisfied Clients</h3>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <span class="counter-value" data-toggle="counter-up">980</span>
+                            <h4 class="text-secondary mb-0" style="font-weight: 600; font-size: 25px;">+</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="counter">
+                    <div class="counter-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="counter-content">
+                        <h3>Industry Awards</h3>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <span class="counter-value" data-toggle="counter-up">45</span>
+                            <h4 class="text-secondary mb-0" style="font-weight: 600; font-size: 25px;">+</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.7s">
+                <div class="counter">
+                    <div class="counter-icon">
+                        <i class="fas fa-thumbs-up"></i>
+                    </div>
+                    <div class="counter-content">
+                        <h3>Success Rate</h3>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <span class="counter-value" data-toggle="counter-up">99</span>
+                            <h4 class="text-secondary mb-0" style="font-weight: 600; font-size: 25px;">%</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Counter Facts End -->

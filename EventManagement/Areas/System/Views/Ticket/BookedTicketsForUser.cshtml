@@ -1,0 +1,33 @@
+﻿@using EventManagement.Areas.System.View_Models
+@model List<UserTicketsVM>
+
+@{
+    ViewData["Title"] = "Your Tickets";
+}
+
+<style>
+    .Finallyfooter {
+        position: absolute;
+        bottom: 0;
+    }
+</style>
+
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>Event Name</th>
+        <th>Ticket ExpireDate</th>
+        <th>Event StartDate</th>
+        <th>Ticket Price</th>
+        <th>Number Of Tickets</th>
+    </tr>
+    @foreach (var ticket in Model)
+    {
+        <tr>
+            <td>@ticket.EventName</td>
+            <td>@ticket.TicketExpireDate</td>
+            <td>@ticket.EventStartDate</td>
+            <td>@ticket.TicketPrice</td>
+            <td>@ticket.NumberOfTickets</td>
+        </tr>
+    }
+</table>

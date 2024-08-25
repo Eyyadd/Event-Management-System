@@ -132,6 +132,9 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -141,6 +144,12 @@ namespace DAL.Migrations
 
                     b.Property<int>("NoOfTickets")
                         .HasColumnType("int");
+
+                    b.Property<string>("OrganizerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -152,6 +161,8 @@ namespace DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("OrganizerId");
 
                     b.ToTable("Events");
                 });
@@ -167,13 +178,13 @@ namespace DAL.Migrations
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FeedbackId")
+                    b.Property<int>("TotalNumberOfTickets")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotalPrice")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("TotalSoldTickets")
+                    b.Property<int?>("TotalSoldTickets")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -220,9 +231,6 @@ namespace DAL.Migrations
 
                     b.Property<DateTime>("ExpireDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -376,7 +384,14 @@ namespace DAL.Migrations
                         .WithMany("Events")
                         .HasForeignKey("CategoryId");
 
+                    b.HasOne("DAL.Models.ApplicationUser", "user")
+                        .WithMany()
+                        .HasForeignKey("OrganizerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Category");
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("DAL.Models.EventBooking", b =>

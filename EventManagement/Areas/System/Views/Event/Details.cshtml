@@ -1,0 +1,160 @@
+﻿@* @model Event
+
+<div class="container">
+    <h2>@Model.Name</h2>
+
+    <div class="form-group">
+        <label>Start Date:</label>
+        <p>@Model.StartDate.ToString("yyyy-MM-dd")</p>
+    </div>
+
+    <div class="form-group">
+        <label>End Date:</label>
+        <p>@Model.EndDate.ToString("yyyy-MM-dd")</p>
+    </div>
+
+    <div class="form-group">
+        <label>Location:</label>
+        <p>@Model.location</p>
+    </div>
+
+    <div class="form-group">
+        <label>Price:</label>
+        <p>@Model.Price.ToString("C")</p>
+    </div>
+
+    <form id="buyTicketForm" asp-action="CheckOut" asp-controller="Payment" asp-area="System" method="post">
+        <input type="hidden" name="eventId" value="@Model.Id" />
+        <input type="hidden" name="Price" value="@Model.Price" />
+        <button type="button" id="buyTicketButton" class="btn btn-primary">Buy Ticket</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            $('#buyTicketButton').click(function () {
+                $.ajax({
+                    url: '@Url.Action("IsAuthenticated", "Payment", new { area = "System" })',
+                    type: 'GET',
+                    success: function (isAuthenticated) {
+                        if (isAuthenticated) {
+                            // User is authenticated, submit the form
+                            $('#buyTicketForm').submit();
+                        } else {
+                            // User is not authenticated, show SweetAlert modal
+                            Swal.fire({
+                                title: "Authentication Required",
+                                icon: "info",
+                                html: `
+                                            You need to log in to book a ticket.
+                                            <br><br>
+                                            if you don't have an account
+                                            Please click the "Register" button to create an account.
+                                        `,
+                                showCloseButton: true,
+                                showCancelButton: true,
+                                focusConfirm: false,
+                                confirmButtonText: "Register",
+                                confirmButtonAriaLabel: "Register",
+                                cancelButtonText: "Cancel",
+                                cancelButtonAriaLabel: "Cancel"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '@Url.Action("Register", "Account", new { area = "System" })';
+                                }
+                            });
+                        }
+                    },
+                    error: function () {
+                        alert('There was an error checking your authentication status.');
+                    }
+                });
+            });
+        });
+    </script>
+} *@
+
+@model Event
+
+<style>
+    .Finallyfooter {
+        position: absolute;
+        bottom: 0;
+    }
+</style>
+
+<h2 style="text-align:center; margin-bottom:30px;margin-top:30px;">Event Details</h2>
+<div class="container mt-6">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="~/img/@Model.Cover" alt="Pic" class="img-fluid rounded" style="height:100%;">
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">@Model.Name</h2>
+                    <p class="card-text">@Model.Description</p>
+                    <p><strong>Location:</strong> @Model.location</p>
+                    <p><strong>Date:</strong> @Model.StartDate.ToString("MMMM d, yyyy") - @Model.EndDate.ToString("MMMM d, yyyy")</p>
+                    <p><strong>Price:</strong> $@Model.Price.ToString("C")</p>
+                    <p><strong>Available Tickets:</strong> @Model.NoOfTickets</p>
+                    <div class="d-flex justify-content-end">
+                        <form id="buyTicketForm" asp-action="CheckOut" asp-controller="Payment" asp-area="System" method="post">
+                            <input type="hidden" name="eventId" value="@Model.Id" />
+                            <input type="hidden" name="Price" value="@Model.Price" />
+                            <button type="button" id="buyTicketButton" class="btn btn-primary">Buy Ticket</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            $('#buyTicketButton').click(function () {
+                $.ajax({
+                    url: '@Url.Action("IsAuthenticated", "Payment", new { area = "System" })',
+                    type: 'GET',
+                    success: function (isAuthenticated) {
+                        if (isAuthenticated) {
+                            // User is authenticated, submit the form
+                            $('#buyTicketForm').submit();
+                        } else {
+                            // User is not authenticated, show SweetAlert modal
+                            Swal.fire({
+                                title: "Authentication Required",
+                                icon: "info",
+                                html: `
+                                                    You need to log in to book a ticket.
+                                                    <br><br>
+                                                    if you don't have an account
+                                                    Please click the "Register" button to create an account.
+                                                `,
+                                showCloseButton: true,
+                                showCancelButton: true,
+                                focusConfirm: false,
+                                confirmButtonText: "Register",
+                                confirmButtonAriaLabel: "Register",
+                                cancelButtonText: "Cancel",
+                                cancelButtonAriaLabel: "Cancel"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '@Url.Action("Register", "Account", new { area = "System" })';
+                                }
+                            });
+                        }
+                    },
+                    error: function () {
+                        alert('There was an error checking your authentication status.');
+                    }
+                });
+            });
+        });
+    </script>
+}

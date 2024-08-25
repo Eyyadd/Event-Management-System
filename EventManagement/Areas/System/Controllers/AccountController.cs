@@ -13,6 +13,11 @@
             _signInManager = signInManager;
         }
 
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Register()
         {
@@ -38,7 +43,7 @@
                 if (user.Succeeded)
                 {
                     await _signInManager.SignInAsync(mappingUser, false);
-                    return RedirectToAction("Index", "Event", "System");
+                    return RedirectToAction("Index", "Category", "System");
                 }
 
                 foreach (var Error in user.Errors)
@@ -62,13 +67,22 @@
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = await _userManager.FindByNameAsync(loginUser.UserName);
-                var checkUser = await _signInManager.PasswordSignInAsync(user, loginUser.Password, loginUser.RememberMe, false);
-                if (checkUser.Succeeded)
+                var user = await _userManager.FindByNameAsync(loginUser.UserName);
+                if (user is not null)
                 {
-                    return RedirectToAction("Index", "Event","System");
+                    var checkUser = await _signInManager.PasswordSignInAsync(user, loginUser.Password, loginUser.RememberMe, false);
+                    if (checkUser.Succeeded)
+                    {
+                        if (await _userManager.IsInRoleAsync(user, Role.AdminRole))
+                            return RedirectToAction("RetrieveUsers", "AdminDashboard", new { area = "Admin" });
+                        if (await _userManager.IsInRoleAsync(user, Role.OrganizerRole))
+                            return RedirectToAction("Index", "EventOrganizer", new { area = "Organizer" });
+                        else
+                            return RedirectToAction("Index", "Category", new { area = "System" });
+                    }
+                    ModelState.AddModelError(string.Empty, "Invalid Login ");
                 }
-                ModelState.AddModelError(string.Empty, "Invalid Login ");
+                ModelState.AddModelError(string.Empty, "Invalid UserName ");
             }
             return View(loginUser);
         }
@@ -77,7 +91,7 @@
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Event", "System");
+            return RedirectToAction("Index", "Category", "System");
         }
 
 

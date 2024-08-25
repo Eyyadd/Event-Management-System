@@ -2,36 +2,66 @@
 
 @{
     ViewData["Title"] = "AssignRole";
-
+    Layout = "_DashBoardLayout";
 }
+<style>
+    .LogInContainer {
+        width: 100%;
+        min-height: 60vh;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
 
-<h1>AssignRole</h1>
+    .mainContent {
+        width: 500px;
+        border-radius: 10px;
+        overflow: hidden;
+        padding: 55px 55px 37px;
+        background-color: #003A66;
+    }
 
-<h4>AssignRole</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AssignRole" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UserId">User</label>
-                <select asp-for="UserId" asp-items="@Model.Users"></select>
-                <span asp-validation-for="RoleId"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RoleId">Role</label>
-                <select asp-for="RoleId" asp-items="@Model.Roles"></select>
-                <span asp-validation-for="UserId"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Assign" class="btn btn-primary" />
-            </div>
-        </form>
+    .formHeader {
+        color: #e02454;
+        font-weight: bold;
+    }
+
+    label {
+        color: white;
+        font-size: 20px;
+    }
+</style>
+<div class="LogInContainer">
+    <div class="mainContent">
+        <h1 class="text-center formHeader">Role Assigning</h1>
+        <div>
+            <form asp-action="AssignRole" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="UserId">User</label>
+                    <select asp-for="UserId" asp-items="@Model.Users"></select>
+                    <span asp-validation-for="RoleId"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RoleId">Role</label>
+                    <select asp-for="RoleId" asp-items="@Model.Roles"></select>
+                    <span asp-validation-for="UserId"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Assign" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+
+

@@ -1,0 +1,55 @@
+﻿@model EventManagement.Areas.Admin.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "MyProfile";
+    Layout = "_DashBoardLayout";
+}
+
+<style>
+    label{
+        font-size:20px;
+        font-weight:bold;
+    }
+</style>
+
+<h1>MyProfile</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form  method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" readonly class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" readonly class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" readonly class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" readonly class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="d-flex">
+    <a asp-action="Index" asp-controller="EventOrganizer" asp-area="Organizer" class="btn btn-primary mr-5">Back to Events Table</a>
+    <a asp-action="ChangPassword" asp-controller="Organizer" asp-area="Organizer" class="btn btn-primary">Change Password</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

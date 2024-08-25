@@ -6,18 +6,14 @@ namespace DAL.Models
     {
         public int Id { get; set; }
 
-        public int TotalSoldTickets { get; set; }
+        public int? TotalSoldTickets { get; set; }
+        public int TotalNumberOfTickets { get; set; }
 
-        public int TotalPrice { get; set; }
+        public decimal? TotalPrice { get; set; }
 
         [ForeignKey(nameof(Events))]
         public int EventId { get; set; }
         public Event? Events { get; set; }
 
-
-        [ForeignKey(nameof(Feedback))]
-        public int FeedbackId { get; set; }
-
-        public Feedback? Feedback;
     }
 }

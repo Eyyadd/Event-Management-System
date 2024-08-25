@@ -1,0 +1,99 @@
+﻿@model CreateEventVM
+@{
+    ViewData["Title"] = "Create Event";
+    Layout = "_DashBoardLayout";
+}
+
+<style>
+    .LogInContainer {
+        width: 100%;
+        min-height: 60vh;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mainContent {
+        width: 500px;
+        border-radius: 10px;
+        overflow: hidden;
+        padding: 55px 55px 37px;
+        background-color: #003A66;
+    }
+
+    .formHeader {
+        color: #e02454;
+        font-weight: bold;
+    }
+
+    label {
+        color: white;
+        font-size: 20px;
+    }
+</style>
+
+<div class="LogInContainer">
+    <div class="mainContent">
+        <h1 class="text-center formHeader">Create Event</h1>
+        <div>
+            <form asp-action="SaveCreate" asp-controller="EventOrganizer" asp-area="Organizer" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="StartDate" class="control-label"></label>
+                    <input asp-for="StartDate" class="form-control" type="datetime-local" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndDate" class="control-label"></label>
+                    <input asp-for="EndDate" class="form-control" type="datetime-local" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="location" class="control-label"></label>
+                    <input asp-for="location" class="form-control" />
+                    <span asp-validation-for="location" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CoverFile" class="control-label"></label>
+                    <input asp-for="CoverFile" class="form-control" />
+                    <span asp-validation-for="CoverFile" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NoOfTickets" class="control-label"></label>
+                    <input asp-for="NoOfTickets" class="form-control" type="number" />
+                    <span asp-validation-for="NoOfTickets" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" type="number" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryId"></label>
+                    <select asp-for="CategoryId" asp-items="@(new SelectList(Model.categories, "Id", "Name"))" class="form-control"></select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group d-flex justify-content-between">
+                    <a asp-action="Index" asp-controller="EventOrganizer" asp-area="Organizer" class="btn btn-primary">Back to Events Table</a>
+                    <input type="submit" value="SaveCreate" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

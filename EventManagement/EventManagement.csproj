@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hangfire" Version="1.8.14" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.14" />
+    <PackageReference Include="Hangfire.Core" Version="1.8.14" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.8.14" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
@@ -16,6 +20,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
+    <PackageReference Include="Stripe.net" Version="45.8.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,10 +39,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Organizer\Controllers\" />
     <Folder Include="Areas\Organizer\Data\" />
     <Folder Include="Areas\Organizer\Models\" />
-    <Folder Include="Areas\Organizer\Views\" />
+    <Folder Include="wwwroot\Teams\" />
   </ItemGroup>
 
 </Project>

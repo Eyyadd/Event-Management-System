@@ -40,9 +40,21 @@ namespace BLL.Classes
             return set.ToList();
         }
 
-        public void Update(T UpdatedEntity)
+        public void Update(T UpdatedEntity) 
         {
             set.Update(UpdatedEntity);
+        }
+        public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
+        {
+            return applicationDbContext.Set<T>().Where(predicate).ToList();
+        }
+        public IEnumerable<T> FilterIncluded(string Included, Func<T, bool> func)
+        {
+            return applicationDbContext.Set<T>().Include(Included).Where(func);
+        }
+        public IEnumerable<T> GetAll(Func<T, bool> predicate)
+        {
+            return set.ToList().Where(predicate);
         }
     }
 }

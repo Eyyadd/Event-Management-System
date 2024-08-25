@@ -1,4 +1,6 @@
-﻿namespace DAL.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DAL.Models
 {
     public class Category
     {

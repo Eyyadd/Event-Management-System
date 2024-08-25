@@ -1,0 +1,85 @@
+﻿@model Event
+@{
+    ViewData["Title"] = "Event Details";
+    Layout = "_DashBoardLayout";
+}
+
+<h2 style="text-align:center; margin-bottom:30px;margin-top:30px;">Event Details</h2>
+<div class="container mt-6">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="~/img/@Model.Cover" alt="Pic" class="img-fluid rounded" style="height: -webkit-fill-available;">
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">@Model.Name</h2>
+                    <p class="card-text">@Model.Description</p>
+                    <p><strong>Location:</strong> @Model.location</p>
+                    <p><strong>Date:</strong> @Model.StartDate.ToString("MMMM d, yyyy") - @Model.EndDate.ToString("MMMM d, yyyy")</p>
+                    <p><strong>Price:</strong> @Model.Price.ToString("C")</p>
+                    <p><strong>Available Tickets:</strong> @Model.NoOfTickets</p>
+                    <div class="d-flex justify-content-end">
+                        <a asp-action="Index" asp-controller="EventOrganizer" asp-area="Organizer" class="btn btn-primary" style="margin-right:10px;">Back To Events Table </a>
+                        <a data-id="@Model.Id" class="btn btn-primary js-delete">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.options = {
+            "preventDuplicates": true,
+            "closeButton": true,
+            "progressBar": true,
+        };
+
+        // Display success toastr if available
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                toastr.success('@TempData["SuccessMessage"]');
+            </text>
+        }
+    </script>
+    <script type="text/javascript">
+        $('.js-delete').on('click', function () {
+            var btn = $(this);
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "EventOrganizer", new { area = "Organizer" })/' + btn.data('id'),
+                        method: 'DELETE',
+                        success: function () {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your event has been deleted.",
+                                icon: "success"
+                            }).then(() => {
+                                // Redirect to the Index action after the success message
+                                window.location.href = '@Url.Action("Index", "EventOrganizer", new { area = "Organizer" })';
+                            });
+                        },
+                        error: function () {
+                            toastr.error("Something went wrong");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

@@ -1,12 +1,70 @@
-﻿@model IEnumerable<Event>
+﻿@using Azure.Core
+@model IEnumerable<Event>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Events";
 }
 
-@foreach(var item in Model)
+<div class="section-title text-center mb-5 wow fadeInUp" style="margin-top: 40px;" data-wow-delay="0.1s">
+    <div class="sub-style">
+        <h5 class="sub-title text-primary px-3">@ViewBag.CategoryName Category</h5>
+    </div>
+</div>
+<div class="d-flex justify-content-center">
+    <form asp-action="Index" method="get" class="form-inline my-2 my-lg-0">
+        <input type="hidden" name="categoryId" value="@ViewBag.CategoryId" />
+        <div class="input-group">
+            <input class="form-control" style="width: 300px;" type="search" name="searchQuery" placeholder="Search events" aria-label="Search" value="@ViewBag.SearchQuery">
+            <div class="input-group-append">
+                <button class="btn btn-primary border-secondary rounded-pill text-white py-3 px-5 wow fadeInUp" type="submit" style="margin-left: 10px;">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="container-fluid service overflow-hidden py-5">
+    <div class="row g-2">
+        @foreach (var item in Model)
+        {
+
+            <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="service-item">
+                    <div class="service-inner">
+                        <div class="service-img">
+                            <img src="/img/@item.Cover" class="img-fluid w-100 rounded" alt="Image" style="height:258px;">
+                        </div>
+                        <div class="service-title">
+                            <div class="service-title-name">
+                                <div class="bg-primary text-center rounded p-3 mx-5 mb-4">
+                                    <a asp-action="Details" asp-controller="Event" asp-area="System" asp-route-id="@item.Id" class="h4 text-white mb-0">@item.Name</a>
+                                </div>
+                                <a class="btn bg-light text-secondary rounded-pill py-3 px-5 mb-4" asp-action="Details" asp-controller="Event" asp-area="System" asp-route-id="@item.Id">More Details</a>
+
+                            </div>
+                            <div class="service-content ">
+                                <a asp-action="Details" asp-controller="Event" asp-area="System" asp-route-id="@item.Id"><h4 class="text-white mb-4 py-3">@item.Name</h4></a>
+                                <div class="px-5 m-lg-5">
+                                    <div class="m-lg-auto">
+                                        From :  @item.StartDate.ToString("dd-MM-yyyy")<br />
+                                        To :  @item.EndDate.ToString("dd-MM-yyyy")<br />
+                                        Location : @item.location <br />
+                                        Price : @item.Price
+                                    </div>
+                                    <br />
+                                    <a asp-action="Details" asp-controller="Event" asp-area="System" asp-route-id="@item.Id" class="btn btn-primary border-secondary rounded-pill text-white py-3 px-5">More Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+@if (!Model.Any())
+
 {
-    <p>@item.Name</p>
-    <p>@item.Category</p>
+    <p>No events</p>
 }
-
-

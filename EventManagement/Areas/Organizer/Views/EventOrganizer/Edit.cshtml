@@ -1,0 +1,54 @@
+﻿@model DAL.Models.Event
+
+@{
+    ViewData["Title"] = "Edit Event";
+}
+
+<h1>Edit Event</h1>
+
+<form asp-action="Edit" asp-controller="Event" asp-area="System" method="post">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" value="@Model.Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartDate" class="control-label"></label>
+        <input asp-for="StartDate" class="form-control" type="date" value="@Model.StartDate.ToString("yyyy-mm-dd")" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndDate" class="control-label"></label>
+        <input asp-for="EndDate" class="form-control" type="date" value="@Model.EndDate.ToString("yyyy-mm-dd")" />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="location" class="control-label"></label>
+        <input asp-for="location" class="form-control" value="@Model.location" />
+        <span asp-validation-for="location" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cover" class="control-label"></label>
+        <input asp-for="Cover" class="form-control" value="@Model.Cover" />
+        <span asp-validation-for="Cover" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price" class="control-label"></label>
+        <input asp-for="Price" class="form-control" type="number" value="@Model.Price" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NoOfTickets" class="control-label"></label>
+        <input asp-for="NoOfTickets" class="form-control" type="number" value="@Model.NoOfTickets" />
+        <span asp-validation-for="NoOfTickets" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Edit" class="btn btn-primary" />
+        <a asp-action="Index" asp-controller="EventOrganizer" asp-area="Organizer" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>
+

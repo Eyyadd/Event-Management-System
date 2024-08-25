@@ -1,0 +1,143 @@
+﻿@using EventManagement.Areas.System.View_Models
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "_HomeLayout";
+    var eventid = ViewBag.EventId;
+}
+
+<style>
+    .Finallyfooter{
+        display:none;
+    }
+    .back-to-top{
+        display:none;
+    }
+    .LogInContainer {
+        width: 100%;
+        min-height: 60vh;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mainContent {
+        width: 500px;
+        border-radius: 10px;
+        overflow: hidden;
+        padding: 55px 55px 37px;
+        background-color: #003A66;
+    }
+
+    .formHeader {
+        color: #e02454;
+        font-weight: bold;
+    }
+
+    label {
+        color: black;
+        font-size: 20px;
+        width: 50%;
+        border-radius: 5px;
+        font-weight:500;
+    }
+
+    .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    #submit-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #e02454;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 18px;
+        border-radius: 5px;
+    }
+
+    #submit-button:hover {
+        background-color: #c01f48;
+    }
+
+    #BigContainer {
+        background-color: whitesmoke;
+        margin-top: 21px;
+        border-radius: 6px;
+        padding:10px;
+    }
+    .paymentFooter{
+        background-color: #e02454;
+        height: 80px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        padding:25px;
+    }
+</style>
+
+<div class="LogInContainer">
+    <div class="mainContent">
+        <h1 class="text-center formHeader">Payment</h1>
+        <div id="BigContainer">
+            <form asp-action="ProcessPayment" asp-controller="Payment" method="POST" id="payment-form">
+                <div class="form-row">
+                    <label for="card-element">
+                        Credit or debit card
+                    </label>
+                    <div id="card-element">
+                        <!-- A Stripe Element will be inserted here. -->
+                    </div>
+            
+                    <!-- Used to display form errors. -->
+                    <div id="card-errors" role="alert"></div>
+                </div>
+                <input type="hidden" name="eventId" value="@eventid" />
+                <button type="submit" id="submit-button">Submit Payment</button>
+            </form>
+        </div>
+</div>
+
+<div class="paymentFooter">
+        <span class="text-white"><a href="#" class="border-bottom text-white"><i class="fas fa-copyright text-light me-2"></i>Tickity</a>, All right reserved.</span>
+</div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    var stripe = Stripe('@ViewBag.StripePublishableKey');
+    var elements = stripe.elements();
+
+    var card = elements.create('card');
+    card.mount('#card-element');
+
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+                // Inform the customer that there was an error.
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                // Send the token to your server.
+                stripeTokenHandler(result.token);
+            }
+        });
+    });
+
+    function stripeTokenHandler(token) {
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        form.submit();
+    }
+</script>

@@ -6,7 +6,6 @@ namespace DAL.Models
     {
         public int Id { get; set; }
         public DateTime ExpireDate { get; set; }
-        public double Price { get; set; }
 
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
