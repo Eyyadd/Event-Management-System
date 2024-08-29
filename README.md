@@ -15,7 +15,7 @@ Stripe API: Integrated for secure online payment processing.
 Bootstrap/CSS: To create a responsive and user-friendly interface.
 # Installation
 Clone the repository:
-git clone https://github.com/Tifa2002/event-management-system.git
+git clone https://github.com/Eyyadd/Event-Management-System
 Navigate to the project directory:
 cd event-management-system
 Restore dependencies:
